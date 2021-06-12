@@ -56,7 +56,7 @@
           <!-- title -->
           <span slot="title">
             <a-icon type="api" />
-            <span>{{ nav_options.Sensors }}</span>
+            <span>{{ nav_options.Smart_Devices }}</span>
           </span>
 
           <!-- item v-for -->
