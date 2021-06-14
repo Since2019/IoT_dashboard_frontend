@@ -35,6 +35,11 @@
           ><a-icon type="setting" /><span>{{ nav_options.Devices }}</span></span
         >
 
+        <!-- <a-menu-item>
+          <a-icon type="folder-add" key="add-sensor" />
+          <span>{{ nav_options.Add_New_Device }}</span>
+        </a-menu-item> -->
+
         <!-- Sensors -->
         <a-sub-menu key="sensor-list">
           <!-- title -->

@@ -6,6 +6,7 @@ export const nav_options = {
     Analytics: "Analytics",
     Sensors: "Sensors",
     Smart_Devices: "Smart Devices",
+    Add_New_Device: "Add New Device"
 }
 
 export const dashboard_options = [
