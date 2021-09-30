@@ -41,8 +41,10 @@
         </a-menu-item> -->
 
         <!-- Sensors -->
+        <!-- 传感器列表 -->
         <a-sub-menu key="sensor-list">
           <!-- title -->
+          <!-- 标题 -->
           <span slot="title">
             <a-icon type="setting" />
             <span>
@@ -57,11 +59,14 @@
         </a-sub-menu>
 
         <!-- Smart Devices -->
+        <!-- 智能设备列表 -->
         <a-sub-menu key="smart-home-device-list">
           <!-- title -->
           <span slot="title">
             <a-icon type="api" />
-            <span>{{ nav_options.Smart_Devices }}</span>
+
+            <!-- FIXME 点击这里切换设备 -->
+            <span onclick="handleClick">{{ nav_options.Smart_Devices }}</span>
           </span>
 
           <!-- item v-for -->
@@ -82,8 +87,9 @@ import {
   dashboard_options,
 } from "@/attributes/home-navigation.js";
 
+// These have to be put into JSON in the future!
 const test_smart_devices = [
-  { id: "smart_devices1", name: "Device1" },
+  { id: "smart_devices1", name: "WeMos 18650" },
   { id: "smart_devices2", name: "Device2" },
 ];
 
@@ -109,6 +115,11 @@ export default {
       console.log("click ", e);
       this.current = e.key;
     },
+    switchDevice(e) {
+      // FIXME 传参数给 Home.vue
+      console.log(e);
+    },
+    // 切换颜色
     changeTheme(checked) {
       this.theme = checked ? "dark" : "light";
     },

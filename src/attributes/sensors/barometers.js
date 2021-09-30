@@ -13,7 +13,7 @@ const bme280 = {
 }
 
 
-export const barometers = {
+export default {
     // v-for
     type: 'barometer',
 

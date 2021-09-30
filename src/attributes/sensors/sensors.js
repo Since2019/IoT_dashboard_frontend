@@ -1,8 +1,8 @@
-const barometers = require('barometers')
-const themometers = require('themometers')
+const barometers = require('./barometers')
+const thermometers = require('./thermometers')
 
-export const sensors = {
-    barometers,
-    barometers
+console.log("barometers:")
+console.log(barometers)
 
-}
+export const sensors = [barometers, thermometers
+]
