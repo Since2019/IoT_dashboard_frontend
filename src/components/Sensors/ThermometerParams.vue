@@ -1,8 +1,14 @@
 <template>
   <div>
     <div id="chartdiv"></div>
-    <span>Temperature</span>
+    <span><h2>Temperature</h2></span>
+    <span
+      ><b> {{ temperature }}</b></span
+    >
     <span>°C</span>
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 

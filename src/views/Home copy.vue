@@ -5,6 +5,16 @@
         <Navigation />
       </div>
 
+      <!-- DHT22 -->
+      <div class="themometer-test">
+        <Barometer />
+        <!-- <Thermometer /> -->
+      </div>
+
+      <div class="div__sensor-list">
+        <SensorList />
+      </div>
+
       <div v-if="device_to_display == 'wemos'" id="div__device-dashboard">
         <WeMos18650 />
       </div>

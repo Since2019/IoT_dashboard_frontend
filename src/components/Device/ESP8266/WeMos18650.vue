@@ -4,6 +4,8 @@
 
     <div id="div__wemos18650_dashboard">
       <!-- FIXME This is hardcoded-->
+      <!-- <div id="barometer"></div> -->
+      <Hygrometer :humidity="humidity" />
       <Thermometer :temperature="temperature" />
     </div>
   </div>
@@ -12,14 +14,7 @@
 <script>
 import thermometers from "@/attributes/sensors/thermometers";
 
-let test_sensor_data = {
-  // Device的属性
-  name: "WeMos Thermometer Tests",
-  sensors: [thermometers.dht22],
-  // Device获取数据
-  mqtt_endpoint: "192.168.1.2/DHT22",
-};
-
+import Hygrometer from "@/components/Sensors/Hygrometer.vue";
 import Thermometer from "@/components/Sensors/ThermometerParams.vue";
 
 export default {
@@ -27,31 +22,50 @@ export default {
   setup() {},
 
   mounted() {
-    this.updateTemperature();
+    this.fetchTemperature();
+    this.fetchHumidity();
+    setInterval(() => {
+      this.fetchTemperature();
+      this.fetchHumidity();
+    }, 2000);
   },
   data() {
     return {
       thermometers: thermometers.default,
       temperature: 32,
+      humidity: 0,
     };
   },
   methods: {
-    updateTemperature() {
-      setTimeout(() => {
-        this.temperature = 35;
-        console.log(this.temperature);
-      }, 1000);
-
-      setTimeout(() => {
-        this.temperature = 29;
-        console.log(this.temperature);
-      }, 2000);
-
-      setTimeout(() => {
-        this.temperature = 27;
-      }, 3000);
+    // 用get的方法去服务器那里抓取温度，然后再渲染
+    fetchTemperature() {
+      this.axios
+        .get("http://127.0.0.1:3000/sensor_data/wemos-room-monitor")
+        .then((response) => {
+          this.temperature = response.data.reading.sensor_data.temperature;
+          console.log("response:");
+          console.log(response);
+        })
+        .catch((response) => {
+          console.log(response);
+        });
+    },
+    fetchHumidity() {
+      this.axios
+        .get("http://127.0.0.1:3000/sensor_data/wemos-room-monitor")
+        .then((response) => {
+          this.humidity = response.data.reading.sensor_data.humidity;
+          console.log("response:");
+          console.log(response);
+        })
+        .catch((response) => {
+          console.log(response);
+        });
     },
   },
-  components: { Thermometer },
+  components: {
+    Thermometer,
+    Hygrometer,
+  },
 };
 </script>

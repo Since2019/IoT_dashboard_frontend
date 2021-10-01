@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="chartdiv"></div>
+    <div id="barometer"></div>
     <span>Temperature</span>
     <span>°C</span>
   </div>
@@ -17,8 +17,11 @@ export default {
   setup() {},
   mounted() {
     // create chart
-    var chart = am4core.create("chartdiv", am4charts.GaugeChart);
+    var chart = am4core.create("barometer", am4charts.GaugeChart);
     chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
+    chart.startAngle = -90;
+    chart.endAngle = 270;
 
     chart.innerRadius = -25;
 
