@@ -1,8 +1,14 @@
 <template>
   <div>
-    <div id="barometer"></div>
-    <span>Temperature</span>
-    <span>°C</span>
+    <div id="div__barometer"></div>
+    <span><h2>Pressure</h2></span>
+    <span
+      ><b> {{ pressure }}</b></span
+    >
+    <span>Pa</span>
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 
@@ -17,26 +23,29 @@ export default {
   props: ["pressure"],
   setup() {},
   mounted() {
+    this.pressure / 1000;
     this.createGraph();
   },
-
+  data() {
+    return {
+      chart: null,
+      hand: null,
+    };
+  },
   methods: {
-    // 创建大气压图
     createGraph() {
       // create chart
-      var chart = am4core.create("barometer", am4charts.GaugeChart);
-      chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+      var chart = am4core.create("div__barometer", am4charts.GaugeChart);
+      this.chart = chart;
 
-      chart.startAngle = -30;
-      chart.endAngle = 105;
+      chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
       chart.innerRadius = -25;
 
       var axis = chart.xAxes.push(new am4charts.ValueAxis());
-      axis.min = 975;
-      axis.max = 1060;
+      axis.min = 95000;
+      axis.max = 105000;
       axis.strictMinMax = true;
-
       axis.renderer.grid.template.stroke =
         new am4core.InterfaceColorSet().getFor("background");
       axis.renderer.grid.template.strokeOpacity = 0.3;
@@ -44,42 +53,56 @@ export default {
       var colorSet = new am4core.ColorSet();
 
       var range0 = axis.axisRanges.create();
-      range0.value = -30;
-      range0.endValue = 0;
+      range0.value = 95000;
+      range0.endValue = 99000;
       range0.axisFill.fillOpacity = 1;
-      range0.axisFill.fill = colorSet.getIndex(0);
+      range0.axisFill.fill = colorSet.getIndex(3);
       range0.axisFill.zIndex = -1;
 
       var range1 = axis.axisRanges.create();
-      range1.value = 0;
-      range1.endValue = 25;
+      range1.value = 99000;
+      range1.endValue = 101000;
       range1.axisFill.fillOpacity = 1;
-      range1.axisFill.fill = colorSet.getIndex(2);
+      range1.axisFill.fill = colorSet.getIndex(6);
       range1.axisFill.zIndex = -1;
 
       var range2 = axis.axisRanges.create();
-      range2.value = 25;
-      range2.endValue = 32;
+      range2.value = 101000;
+      range2.endValue = 103000;
       range2.axisFill.fillOpacity = 1;
-      range2.axisFill.fill = colorSet.getIndex(4);
+      range2.axisFill.fill = colorSet.getIndex(8);
       range2.axisFill.zIndex = -1;
 
       var range3 = axis.axisRanges.create();
-      range3.value = 32;
-      range3.endValue = 50;
+      range3.value = 103000;
+      range3.endValue = 105000;
       range3.axisFill.fillOpacity = 1;
-      range3.axisFill.fill = colorSet.getIndex(8);
+      range3.axisFill.fill = colorSet.getIndex(10);
       range3.axisFill.zIndex = -1;
 
       var hand = chart.hands.push(new am4charts.ClockHand());
+      this.hand = hand;
+      hand.showValue(this.pressure, 0, am4core.ease.cubicOut);
 
       // using chart.setTimeout method as the timeout will be disposed together with a chart
-      chart.setTimeout(randomValue, 2000);
+      console.log("this.pressure");
+      console.log(this.pressure);
+    },
+    updateGraph() {
+      // create chart
+      // var chart = this.chart;
 
-      function randomValue() {
-        hand.showValue(-35 + Math.random() * 80, 1000, am4core.ease.cubicOut);
-        chart.setTimeout(randomValue, 2000);
-      }
+      this.hand.showValue(this.pressure, 0, am4core.ease.cubicOut);
+
+      // using chart.setTimeout method as the timeout will be disposed together with a chart
+      console.log("this.pressure");
+      console.log(this.pressure);
+    },
+  },
+  watch: {
+    pressure() {
+      this.pressure = this.pressure / 1000;
+      this.updateGraph();
     },
   },
 };
