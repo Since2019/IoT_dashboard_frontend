@@ -5,6 +5,7 @@
     <div id="div__wemos18650_dashboard">
       <!-- FIXME This is hardcoded-->
       <!-- <div id="barometer"></div> -->
+      <Barometer :pressure="pressure" />
       <Hygrometer :humidity="humidity" />
       <Thermometer :temperature="temperature" />
     </div>
@@ -14,20 +15,24 @@
 <script>
 import thermometers from "@/attributes/sensors/thermometers";
 
+import Barometer from "@/components/Sensors/Barometer";
+
 import Hygrometer from "@/components/Sensors/Hygrometer.vue";
 import Thermometer from "@/components/Sensors/ThermometerParams.vue";
 
 export default {
   name: "WeMos18650",
+  props: ["device_name"],
   setup() {},
 
   mounted() {
-    this.fetchTemperature();
-    this.fetchHumidity();
-    setInterval(() => {
-      this.fetchTemperature();
-      this.fetchHumidity();
-    }, 2000);
+    this.fetchAllSensorsData();
+    // this.fetchTemperature();
+    // this.fetchHumidity();
+    // setInterval(() => {
+    //   this.fetchTemperature();
+    //   this.fetchHumidity();
+    // }, 2000);
   },
   data() {
     return {
@@ -37,6 +42,19 @@ export default {
     };
   },
   methods: {
+    fetchAllSensorsData() {
+      this.axios
+        .get(`http://127.0.0.1:3000/sensor_data/${this.device_name}`)
+        .then((response) => {
+          this.temperature = response.data.temperature;
+          this.humidity = response.data.humidity;
+          this.pressure = response.data.pressure;
+        })
+        .catch((response) => {
+          console.log(response);
+        });
+    },
+
     // 用get的方法去服务器那里抓取温度，然后再渲染
     fetchTemperature() {
       this.axios
@@ -64,6 +82,7 @@ export default {
     },
   },
   components: {
+    Barometer,
     Thermometer,
     Hygrometer,
   },
