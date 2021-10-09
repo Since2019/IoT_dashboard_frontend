@@ -6,7 +6,7 @@
       </div>
 
       <div v-if="device_to_display == 'wemos'" id="div__device-dashboard">
-        <WeMos18650 />
+        <WeMos18650 device_name="wemos-room-monitor-02" />
       </div>
     </div>
   </div>
