@@ -23,7 +23,7 @@ export default {
   props: ["pressure"],
   setup() {},
   mounted() {
-    this.pressure / 1000;
+    this.pressure ;
     this.createGraph();
   },
   data() {
@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     pressure() {
-      this.pressure = this.pressure / 1000;
+      this.pressure = this.pressure;
       this.updateGraph();
     },
   },
